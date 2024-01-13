@@ -1,0 +1,1 @@
+from main.views.foot_view import FoodViewSet

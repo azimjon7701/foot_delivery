@@ -75,5 +75,6 @@ class OrderUserViewSet(mixins.CreateModelMixin,
     search_fields = ('food__name',)
 
     def get_queryset(self):
+        print('   ------   ', self.request.user)
         queryset = super().get_queryset().filter(user=self.request.user)
         return queryset

@@ -78,6 +78,5 @@ class OrderUserViewSet(mixins.CreateModelMixin,
 
 
     def get_queryset(self):
-        print('   ------   ', get_current_user_id())
-        queryset = super().get_queryset().filter(user_id=get_current_user_id())
+        queryset = super().get_queryset().filter(user=self.request.user)
         return queryset

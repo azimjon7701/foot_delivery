@@ -5,6 +5,7 @@ from rest_framework.viewsets import GenericViewSet
 
 from main import models, serializers
 from utils import permissions, filters
+from utils.current_user import get_current_user_id
 from utils.paginators import CPageNumberPagination
 
 
@@ -75,18 +76,8 @@ class OrderUserViewSet(mixins.CreateModelMixin,
     ordering_fields = ['created_at', 'status']
     search_fields = ('food__name',)
 
-    def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset()).filter(user=request.user.id)
 
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
-
-    # def get_queryset(self):
-    #     print('   ------   ', self.request.user)
-    #     queryset = super().get_queryset().filter(user=self.request.user.id)
-    #     return queryset
+    def get_queryset(self):
+        print('   ------   ', get_current_user_id())
+        queryset = super().get_queryset().filter(user_id=get_current_user_id())
+        return queryset

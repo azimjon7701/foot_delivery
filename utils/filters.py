@@ -3,5 +3,5 @@ from main import models
 class OrderFilter(django_filters.FilterSet):
     class Meta:
         model = models.Order
-        fields = ['price', 'status']
+        fields = ['status']
 

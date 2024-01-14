@@ -30,13 +30,9 @@ class FoodViewSet(viewsets.ModelViewSet):
     queryset = models.Food.objects.all()
     serializer_class = serializers.FoodSerializer
     pagination_class = CPageNumberPagination
-    permission_classes = [permissions.IsAdmin, permissions.IsWaiter]
+    permission_classes = [permissions.IsWaiter]
     filter_backends = [filters.OrderingFilter]
     ordering_fields = ['name', 'price']
-
-    def get_queryset(self):
-        print('user')
-        return super().get_queryset()
 
 
 class FoodReadOnlyViewSet(viewsets.ReadOnlyModelViewSet):
@@ -52,10 +48,6 @@ class FoodReadOnlyViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Food.objects.all()
     serializer_class = serializers.FoodSerializer
     pagination_class = CPageNumberPagination
-    permission_classes = [permissions.IsAdmin, permissions.IsWaiter]
+    permission_classes = [permissions.IsCustomer]
     filter_backends = [filters.OrderingFilter]
     ordering_fields = ['name', 'price']
-
-    def get_queryset(self):
-        print('user')
-        return super().get_queryset()

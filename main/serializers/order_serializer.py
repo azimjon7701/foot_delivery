@@ -34,6 +34,11 @@ class OrderStaffSerializer(serializers.ModelSerializer, OrderSerializer):
 class OrderUserSerializer(serializers.ModelSerializer, OrderSerializer):
     estimated_time = serializers.SerializerMethodField('get_estimated_time')
 
+    def create(self, validated_data):
+        validated_data.setdefault('user', self.context['request'].user)
+        validated_data.setdefault('price', validated_data['food'].price)
+        return super().create(validated_data)
+
     class Meta:
         model = models.Order
         fields = ['id', 'food', 'user', 'price', 'status', 'distance', 'updated_at', 'description', 'estimated_time']

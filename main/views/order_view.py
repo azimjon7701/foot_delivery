@@ -13,6 +13,7 @@ class OrderStaffViewSet(
     mixins.RetrieveModelMixin,
     mixins.UpdateModelMixin,
     mixins.ListModelMixin,
+    mixins.DestroyModelMixin,
     GenericViewSet):
     """
         API endpoint for managing orders.

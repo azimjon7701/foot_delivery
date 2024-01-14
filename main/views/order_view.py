@@ -1,5 +1,6 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters as rf, mixins
+from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
 from main import models, serializers
@@ -74,7 +75,18 @@ class OrderUserViewSet(mixins.CreateModelMixin,
     ordering_fields = ['created_at', 'status']
     search_fields = ('food__name',)
 
-    def get_queryset(self):
-        print('   ------   ', self.request.user)
-        queryset = super().get_queryset().filter(user=self.request.user.id)
-        return queryset
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset()).filter(user=request.user.id)
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+    # def get_queryset(self):
+    #     print('   ------   ', self.request.user)
+    #     queryset = super().get_queryset().filter(user=self.request.user.id)
+    #     return queryset

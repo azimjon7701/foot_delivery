@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-sg&-f^09*ell0oj9f6_3@cv-e^r)2r$bq*(i(pi%#ogng%1w0t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -115,7 +115,11 @@ DATABASES = {
         'PORT': 5432,
     }
 }
-
+"""
+create database fd_db;
+create user fd_user with encrypted password 'p)oS7sTu3erU09h';
+grant all privileges on database acp_db to fd_user;
+"""
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
